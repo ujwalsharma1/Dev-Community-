@@ -12,6 +12,10 @@ connectDB();
 
 app.use('/user',userRoutes);
 
+app.use("/", function (req,res){
+  res.status(500).json({message: err.message});
+})
+
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
 })
