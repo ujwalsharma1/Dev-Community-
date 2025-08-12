@@ -1,8 +1,14 @@
-const express= require('express');
-const profilerouter = express.Router();
-const {addProfileDetails} = require('../controllers/profileController');
+const express = require("express");
+const { addProfileDetails, getProfileDetails, updateProfileDetails } = require("../controllers/profileController");
+const { authMiddleware } = require("../middlewares/authMiddleware");
 
 
-profilerouter.post('/addProfile',addProfileDetails);
+const router = express.Router();
 
-module.exports= profilerouter;
+router.get("/", getProfileDetails);
+router.post("/",authMiddleware,addProfileDetails);
+router.post('/update', authMiddleware,updateProfileDetails);
+
+
+
+module.exports = router;

@@ -1,6 +1,6 @@
 const User = require("../models/DevUser");
 const bcrypt = require("bcrypt");
-// const generateToken = require("../utils/generateToken");
+const generateToken = require('../utlis/generateToken');
 
 const registerUser = async (req, res) => {
   const { firstName, lastName, emailId, password } = req.body;
@@ -29,8 +29,6 @@ const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-
-    // const tokenGen = generateToken(newUser._id)
 
     return res.status(201).json({
       message: "User Registered Successfully",
@@ -72,10 +70,13 @@ const loginUser = async (req, res) => {
       return res.status(401).send("Password is Wrong");
     }
 
+    const tokenGen = generateToken(userExists._id);
+
     return res.status(200).json({
       message: "User Logged In Successfully",
       userName: userExists.firstName,
       emailId: userExists.emailId,
+      token: tokenGen,
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
